@@ -4,7 +4,7 @@
 
 **For the script to work correctly, you need to change the following values in the aws_sts.sh file:**
 
-aws sts assume-role --role-arn arn:aws:iam::**AccountID**:role/Admins --role-session-name tf --serial-number<your_mfa_id> --token-code "$token_code" - -profile **your_profile**
+aws sts assume-role --role-arn arn:aws:iam::**&lt;AccountID&gt;**:role/Admins --role-session-name tf --serial-number **&lt;your_mfa_id&gt;** --token-code "$token_code" --profile **&lt;your_profile&gt;**
 
 * **&lt;AccountID&gt;** - specify your account
 * **&lt;your_mfa_id&gt;** - specify your mfa
