@@ -5,6 +5,12 @@ terraform {
       version = "5.11.0"
     }
   }
+  backend "s3" {
+    bucket         = "dos14-tf-state"
+    key            = "omega/prd/aws/state.tfstate"
+    dynamodb_table = "tf_state_omega"
+    region         = "eu-central-1"
+  }
 }
 
 provider "aws" {
@@ -27,3 +33,4 @@ data "aws_ami" "ubuntu" {
 
   owners = ["099720109477"] # Canonical
 }
+#
