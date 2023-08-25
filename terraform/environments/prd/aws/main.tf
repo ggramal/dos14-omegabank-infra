@@ -14,7 +14,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "eu-central-1"
+  region = "eu-west-1"
 }
 
 
@@ -30,6 +30,17 @@ data "aws_ami" "ubuntu" {
     name   = "virtualization-type"
     values = ["hvm"]
   }
+
+
+  modules "vpcs" {
+    source       = "../../terraform/modules/aws/vpc/"
+    name         = local.vpcs["omega-tf"].name
+    cidr         = local.vpcs["omega-tf"].cidr
+    internet_gws = local.vpcs["omega-tf"].internet_gws
+    nat_gws      = local.vpcs["omega-tf"].nat_gws
+    subnets      = local.vpcs["omega-tf"].subnets
+  }
+
 
   owners = ["099720109477"] # Canonical
 }
