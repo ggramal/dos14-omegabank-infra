@@ -1,10 +1,17 @@
 #!/bin/bash
 
 # Requesting a token code from the user
+read -p "Enter your aws user: " aws_user
+read -p "Enter your MFA authenticator name: " mfa
 read -p "Enter token code: " token_code
 
+# Get caller identity
+caller_identity=$(aws sts get-caller-identity)
+AccountID=$(echo "$caller_identity" | jq -r '.Account')
+
 # Command execution aws sts assume-role с подстановкой значения кода токена
-output_aws=$(aws sts assume-role --role-arn arn:aws:iam::<AccountID>:role/Admins --role-session-name tf --serial-number <your_mfa_id> --token-code "$token_code" --profile <your_profile>)
+output_aws=$(aws sts assume-role --role-arn arn:aws:iam::"$AccountID":role/Admins --role-session-name "$aws_user"\
+ --serial-number arn:aws:iam::546240550610:mfa/"$mfa" --token-code "$token_code" --profile default)
 
 # Retrieving the values of variables
 access_key_id=$(echo "$output_aws" | jq -r '.Credentials.AccessKeyId')
@@ -18,5 +25,5 @@ export AWS_SESSION_TOKEN="$session_token"
 
 # Output of current values.
 echo ""
-echo "current parameters AWS."
-env | grep AWS
+echo "AWS logging in successfully"
+#env | grep AWS
