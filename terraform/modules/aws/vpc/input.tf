@@ -26,7 +26,7 @@ variable "nat_gws" {
     object(
       {
         name   = string
-        subnet = list(string)
+        subnet = string
       }
     )
   )
@@ -51,7 +51,6 @@ variable "subnets" {
             }
           )
         )
-
       }
     )
   )

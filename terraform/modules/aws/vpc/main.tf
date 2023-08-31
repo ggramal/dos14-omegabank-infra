@@ -15,16 +15,16 @@ resource "aws_internet_gateway" "gws" {
   }
 }
 
-#resource "aws_nat_gateway" "nats" {
-#  allocation_id = aws_eip.nats.id
-#  subnet_id     = aws_subnet.main.id
-#
-#  tags = {
-#    Name = "omega_nat1-tf"
-#  }
+resource "aws_nat_gateway" "nats" {
+  allocation_id = aws_eip.nats.id
+  subnet_id     = aws_subnet.main["public_subnet3"].id
 
-#  #depends_on = [aws_internet_gateway.example]
-#}
+  tags = {
+    Name = "omega_nat1-tf"
+  }
+
+  #depends_on = [aws_internet_gateway.example]
+}
 
 resource "aws_eip" "nats" {
   domain = "vpc"
@@ -41,28 +41,23 @@ resource "aws_subnet" "main" {
     Name = each.value.name
   }
 }
-#
-#resource "aws_route_table" "example" {
-#  vpc_id = aws_vpc.example.id
-#
-#  route {
-#    cidr_block = "10.100.11.0/24"
-#    gateway_id = aws_internet_gateway.example.id
-#  }
-#
-#  route {
-#    cidr_block    = "10.100.21.0/24"
-#    nat_ateway_id = aws_internet_gateway.example.id
-#  }
-#
-#  route {
-#    cidr_block = "10.100.0.0/16"
-#    gateway_id = "local"
-#  }
-#  tags = {
-#    Name = "example"
-#  }
-#}
+
+resource "aws_route_table" "routes" {
+  for_each = var.subnets
+  vpc_id   = aws_vpc.main.id
+
+  dynamic "route" {
+    for_each = [
+      for route in each.value.routes :
+      route
+      if route.internet_gw != null
+    ]
+    content {
+      # cidr_block = route.value.cidr
+      gateway_id = aws_internet_gateway.gws.id
+    }
+  }
+}
 #
 #resource "aws_route_table_association" "a" {
 #  subnet_id      = aws_subnet.foo.id

@@ -11,7 +11,7 @@ locals {
       nat_gws = {
         nat1 = {
           name   = "omega_nat1-tf"
-          subnet = ["omega_private1-tf", "omega_private2-tf", "omega_private3-tf"]
+          subnet = "public_subnet3"
         }
       }
       subnets = {
