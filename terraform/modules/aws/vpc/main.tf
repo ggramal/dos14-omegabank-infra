@@ -23,7 +23,7 @@ resource "aws_nat_gateway" "nats" {
     Name = "omega_nat1-tf"
   }
 
-  #depends_on = [aws_internet_gateway.example]
+  depends_on = [aws_internet_gateway.gws]
 }
 
 resource "aws_eip" "nats" {
@@ -47,15 +47,28 @@ resource "aws_route_table" "routes" {
   vpc_id   = aws_vpc.main.id
 
   dynamic "route" {
-    for_each = [
-      for route in each.value.routes :
-      route
-      if route.internet_gw != null
-    ]
+    for_each = [var.subnets["private_subnet1"].cidr, var.subnets["private_subnet2"].cidr, var.subnets["private_subnet1"].cidr]
     content {
-      # cidr_block = route.value.cidr
-      gateway_id = aws_internet_gateway.gws.id
+      cidr_block = route.value
+      gateway_id = aws_nat_gateway.nats.id
     }
+  }
+
+  #  dynamic "route" {
+  #    for_each = [
+  #      for route in each.value.routes :
+  #      route
+  #      if route.internet_gw != null
+  #    ]
+  #    content {
+  #      cidr_block = route.value.cidr
+  #      gateway_id = aws_internet_gateway.gws[route.value.internet_gw].id
+  #    }
+  #  }
+
+  route {
+    cidr_block = var.cidr
+    gateway_id = "local"
   }
 }
 #
