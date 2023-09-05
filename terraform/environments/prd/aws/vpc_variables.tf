@@ -9,7 +9,7 @@ locals {
         }
       }
       nat_gws = {
-        nat1 = {
+        "omega_nat1-tf" = {
           name   = "omega_nat1-tf"
           subnet = "public_subnet3"
         }

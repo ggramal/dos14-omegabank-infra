@@ -2,7 +2,7 @@ resource "aws_vpc" "main" {
   cidr_block = var.cidr
 
   tags = {
-    Name = "main"
+    Name = var.name
   }
 }
 
@@ -16,11 +16,12 @@ resource "aws_internet_gateway" "gws" {
 }
 
 resource "aws_nat_gateway" "nats" {
+  for_each      = var.nat_gws
   allocation_id = aws_eip.nats.id
   subnet_id     = aws_subnet.main["public_subnet3"].id
 
   tags = {
-    Name = "omega_nat1-tf"
+    Name = each.value.name
   }
 
   depends_on = [aws_internet_gateway.gws]
@@ -46,34 +47,49 @@ resource "aws_route_table" "routes" {
   for_each = var.subnets
   vpc_id   = aws_vpc.main.id
 
+  #  dynamic "route" {
+  #    for_each = [var.subnets["private_subnet1"].cidr, var.subnets["private_subnet2"].cidr, var.subnets["private_subnet1"].cidr]
+  #    content {
+  #      cidr_block = route.value
+  #      gateway_id = aws_nat_gateway.nats.id
+  #    }
+  #  }
+
   dynamic "route" {
-    for_each = [var.subnets["private_subnet1"].cidr, var.subnets["private_subnet2"].cidr, var.subnets["private_subnet1"].cidr]
+    for_each = [
+      for route in each.value.routes :
+      route
+      if route.internet_gw != null
+    ]
     content {
-      cidr_block = route.value
-      gateway_id = aws_nat_gateway.nats.id
+      cidr_block = route.value.cidr
+      gateway_id = aws_internet_gateway.gws[route.value.internet_gw].id
     }
   }
 
-  #  dynamic "route" {
-  #    for_each = [
-  #      for route in each.value.routes :
-  #      route
-  #      if route.internet_gw != null
-  #    ]
-  #    content {
-  #      cidr_block = route.value.cidr
-  #      gateway_id = aws_internet_gateway.gws[route.value.internet_gw].id
-  #    }
-  #  }
+  dynamic "route" {
+    for_each = [
+      for route in each.value.routes :
+      route
+      if route.nat_gw != null
+    ]
+    content {
+      cidr_block     = route.value.cidr
+      nat_gateway_id = aws_nat_gateway.nats[route.value.nat_gw].id
+    }
+  }
 
   route {
     cidr_block = var.cidr
     gateway_id = "local"
   }
+  tags = {
+    Name = "${var.name}-${each.value.name}-tf"
+  }
 }
-#
-#resource "aws_route_table_association" "a" {
-#  subnet_id      = aws_subnet.foo.id
-#  route_table_id = aws_route_table.bar.id
-#}
-#
+
+resource "aws_route_table_association" "subnets" {
+  for_each       = var.subnets
+  subnet_id      = aws_subnet.main[each.key].id
+  route_table_id = aws_route_table.routes[each.key].id
+}
