@@ -11,7 +11,7 @@ AccountID=$(echo "$caller_identity" | jq -r '.Account')
 
 # Command execution aws sts assume-role с подстановкой значения кода токена
 output_aws=$(aws sts assume-role --role-arn arn:aws:iam::"$AccountID":role/Admins --role-session-name "$aws_user"\
- --serial-number arn:aws:iam::546240550610:mfa/"$mfa" --token-code "$token_code" --profile default)
+ --serial-number arn:aws:iam::"$AccountID":mfa/"$mfa" --token-code "$token_code" --profile default)
 
 # Retrieving the values of variables
 access_key_id=$(echo "$output_aws" | jq -r '.Credentials.AccessKeyId')
