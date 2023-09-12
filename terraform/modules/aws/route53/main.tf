@@ -12,8 +12,6 @@ resource "aws_route53_record" "record" {
   zone_id = aws_route53_zone.omega.zone_id
   name    = var.record_name
   type    = var.record_type
-  #ttl     = var.record_ttl
-  #records = var.record_records
 
   #we don’t have alb, I specified entries in the alias of the current A record, then we will change it to substitute the values of alb.
    alias {
@@ -24,9 +22,10 @@ resource "aws_route53_record" "record" {
  }
 
 resource "aws_route53_record" "cname_record" {
-  zone_id = aws_route53_zone.omega.zone_id
-  name    = var.cname_record_name
-  type    = var.cname_record_type
-  ttl     = var.cname_record_ttl
-  records = var.cname_record_value
+  for_each = var.cname_records
+  zone_id  = aws_route53_zone.omega.zone_id
+  name     = each.value.cname_record_name
+  type     = each.value.cname_record_type
+  ttl      = each.value.cname_record_ttl
+  records  = each.value.cname_record_value
 }

@@ -13,34 +13,13 @@ variable "record_type" {
   type        = string
 }
 
-# variable "record_ttl" {
-#   description = "TTL Route53 record"
-#   type        = number
-# }
-
-# variable "record_records" {
-#   description = "records for the Route53 record"
-#   type        = list(string)
-# }
-
-
-variable "cname_record_name" {
-  description = "CNAME record name"
-  type        = string
-}
-
-variable "cname_record_type" {
-  description = "CNAME record type"
-  type        = string
-}
-
-variable "cname_record_ttl" {
-  description = "TTL CNAME record"
-  type        = number
-}
-
-variable "cname_record_value" {
-  description = "Value CNAME record"
-  type        = list(string)
+variable "cname_records" {
+  description = "Map of CNAME records"
+  type        = map(object({
+    cname_record_name   = string
+    cname_record_type   = string
+    cname_record_ttl    = number
+    cname_record_value  = list(string)
+  }))
 }
 
