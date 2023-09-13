@@ -42,6 +42,23 @@ module "vpcs" {
   subnets      = local.vpcs.omega-tf.subnets
 }
 
+module "omega_rds"{
+  source = "../../../modules/aws/rds/"
+  vpc_id = module.vpcs.vpc_id
+  engine_version = local.omega_rds.engine_version
+  name = local.omega_rds.name
+  engine = local.omega_rds.engine
+  storage = local.omega_rds.storage
+  instance_class = local.omega_rds.instance_class
+  username = local.omega_rds.username
+  password = local.omega_rds.password
+  final_snap = local.omega_rds.final_snap
+  cidr = local.omega_rds.cidr
+  port = local.omega_rds.port
+  protocol = local.omega_rds.protocol
+  sg_name = local.omega_rds.sg_name
+}
+
 
 #  owners = ["099720109477"] # Canonical
 #}
