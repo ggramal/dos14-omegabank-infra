@@ -1,15 +1,34 @@
 variable "vpc_id" {
 }
 
+variable "subnet_ids" {
+}
+
+
 variable "engine" {
   description = "db_engine"
   type = string
+}
+
+variable "db_subnet_name" {
+  description = "db_subnet_name"
+  type = string
+}
+
+variable "publicly_accessible" {
+  description = "publicly_accessible"
+  type = bool
 }
 
 variable "name" {
   description = "db_name"
   type = string
 }
+
+# variable "subnet_db" {
+#   description = "subnet_db"
+#   type = number
+# }
 
 variable "storage" {
   description = "allocated_storage"

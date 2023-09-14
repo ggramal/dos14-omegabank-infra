@@ -26,16 +26,15 @@ Name = var.sg_name
 }
 
 
-## create the subnet group for the rds instance
-#resource "aws_db_subnet_group" "database_subnet_group" {
-#name         =
-#subnet_ids   =
-#description  =
-#
-#tags   = {
-#Name =
-#}
-#}
+# create the subnet group for the rds instance
+resource "aws_db_subnet_group" "database_subnet_group" {
+name         = var.db_subnet_name
+subnet_ids   = var.subnet_db
+
+tags   = {
+Name = 
+}
+}
 
 
 # create the rds instance
@@ -43,6 +42,7 @@ resource "aws_db_instance" "omega-db" {
 engine               = var.engine
 allocated_storage    = var.storage
 db_name              = var.name
+publicly_accessible = var.publicly_accessible
 engine_version       = var.engine_version
 instance_class       = var.instance_class
 username             = var.username

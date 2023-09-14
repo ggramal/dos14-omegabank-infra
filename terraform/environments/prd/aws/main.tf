@@ -45,6 +45,9 @@ module "vpcs" {
 module "omega_rds"{
   source = "../../../modules/aws/rds/"
   vpc_id = module.vpcs.vpc_id
+  subnet_ids = module.vpcs.subnet_ids
+  #db_subnet_name = local.omega_rds.db_subnet_name
+  publicly_accessible = local.omega_rds.publicly_accessible
   engine_version = local.omega_rds.engine_version
   name = local.omega_rds.name
   engine = local.omega_rds.engine
