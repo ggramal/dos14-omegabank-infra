@@ -26,16 +26,20 @@ Name = var.sg_name
 }
 
 
-# create the subnet group for the rds instance
-resource "aws_db_subnet_group" "database_subnet_group" {
-name         = var.db_subnet_name
-subnet_ids   = var.subnet_db
+# # create the subnet group for the rds instance
+# resource "aws_db_subnet_group" "database_subnet_group" {
+# # name         = var.db_subnet_name
+# subnet_ids   = var.
 
-tags   = {
-Name = 
-}
-}
-
+# tags   = {
+# Name = 
+# }
+# }
+# resource "aws_default_subnet" "default_subnet_rds" {
+# #   vpc_id = var.vpc_id
+# #   cidr_block        = "10.100.60.0/24"
+#   availability_zone = "us-east-1b"
+# }
 
 # create the rds instance
 resource "aws_db_instance" "omega-db" {

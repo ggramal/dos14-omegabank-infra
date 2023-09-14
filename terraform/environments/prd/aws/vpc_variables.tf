@@ -84,7 +84,26 @@ locals {
             }
           ]
         }
+        rds_subnet = {
+          name              = "omega_rds-tf"
+          cidr              = "10.100.50.0/24"
+          availability_zone = "eu-west-1b"
+          routes = [
+            {
+              cidr   = "0.0.0.0/0"
+            }
+          ]
+        }
+
       }
+
     }
+
   }
+          subnet_rds = {
+          name              = "omega-rds-subnet-tf"
+          cidr              = "10.100.50.0/24"
+          availability_zone = "eu-west-1b"
+} 
 }
+
