@@ -42,6 +42,13 @@ module "vpcs" {
   subnets      = local.vpcs.omega-tf.subnets
 }
 
+module "route53" {
+  source       = "../../../modules/aws/route53/"
+  zone_name       = local.route53.zone_name
+  record_name     = local.route53.record_name
+  record_type     = local.route53.record_type
+  cname_records      = local.route53.cname_records
+}
 
 #  owners = ["099720109477"] # Canonical
 #}
