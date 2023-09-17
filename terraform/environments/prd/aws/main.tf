@@ -59,11 +59,12 @@ module "omega_rds"{
   username = local.omega_rds.username
   password = local.omega_rds.password
   final_snap = local.omega_rds.final_snap
-  cidr = local.omega_rds.cidr
-  port = local.omega_rds.port
-  protocol = local.omega_rds.protocol
+#  cidr = local.omega_rds.cidr
+#  port = local.omega_rds.port
+#  protocol = local.omega_rds.protocol
   sg_name = local.omega_rds.sg_name
   rds_subnet_ids = module.vpcs.rds_subnet_ids
+  rds_sg = local.sg_rds
 }
 
 module "route53" {

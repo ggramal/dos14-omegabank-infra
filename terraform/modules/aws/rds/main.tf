@@ -6,20 +6,19 @@ description = "enable postgres access on port 5432"
 vpc_id      = var.vpc_id
 
 ingress {
-description      = "rds access"
-from_port        = var.port
-to_port          = var.port
-protocol         = var.protocol
-#security_groups  =
-cidr_blocks = var.cidr
+description      = "rds private subnet access"
+from_port        = var.rds_sg.ingress.from_port
+to_port          = var.rds_sg.ingress.to_port
+protocol         = var.rds_sg.ingress.protocol
+cidr_blocks  = var.rds_sg.ingress.cidr_blocks
 }
 
-egress {
-from_port        = var.port
-to_port          = var.port
-protocol         = var.protocol
-cidr_blocks      = var.cidr
-}
+#egress {
+#from_port        = var.port
+#to_port          = var.port
+#protocol         = var.protocol
+#cidr_blocks      = var.cidr
+#}
 
 tags   = {
 Name = var.sg_name
@@ -37,11 +36,6 @@ Name = var.sg_name
  Name = "rds-subnet-tf"
  }
  }
-# resource "aws_default_subnet" "default_subnet_rds" {
-# #   vpc_id = var.vpc_id
-# #   cidr_block        = "10.100.60.0/24"
-#   availability_zone = "us-east-1b"
-# }
 
 # create the rds instance
 resource "aws_db_instance" "omega_db" {
@@ -53,7 +47,6 @@ engine_version       = var.engine_version
 instance_class       = var.instance_class
 username             = var.username
 password             = var.password
-#parameter_group_name = "default.mysql5.7"
 skip_final_snapshot  = var.final_snap
 db_subnet_group_name = aws_db_subnet_group.database_subnet_group.name
 }

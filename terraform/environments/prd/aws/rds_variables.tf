@@ -8,12 +8,20 @@ omega_rds = {
   name = "omegadbtf"
   engine_version = "15.3"
   instance_class = "db.t3.micro"
-  username = "postgres"
-  password = "12345678"
+  username = "test"
+  password = "test"
   final_snap = "true"
-  protocol = "tcp"
-  port = "5432"
-  cidr = ["0.0.0.0/0"]
+#  protocol = "tcp"
+#  port = "5432"
+#  cidr = ["0.0.0.0/0"]
   sg_name = "sg-rds-db"
 }
+ sg_rds = {
+   ingress = {
+     from_port   = 5432
+     to_port     = 5432
+     protocol    = "tcp"
+     cidr_blocks = ["10.100.21.0/24", "10.100.22.0/24", "10.100.23.0/24"]
+   }
+ }
 }

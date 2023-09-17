@@ -4,11 +4,6 @@ variable "vpc_id" {
  variable "rds_subnet_ids" {
  }
 
-#variable "subnet_ids" {
-#}
-
-#variable "rds_subnet_az" {
-#}
 
 variable "engine" {
   description = "db_engine"
@@ -30,11 +25,6 @@ variable "name" {
   type = string
 }
 
-# variable "subnet_db" {
-#   description = "subnet_db"
-#   type = number
-# }
-
 variable "storage" {
   description = "allocated_storage"
   type = number
@@ -50,14 +40,26 @@ variable "instance_class" {
   type = string
 }
 
-variable "username" {
-  description = "username db"
-  type = string
-}
+#variable "username" {
+#  description = "username db"
+#  type = string
+#}
+
+#variable "password" {
+#  description = "password db"
+#  type = string
+#}
 
 variable "password" {
-  description = "password db"
-  type = string
+#  description = "password db"
+#  type        = string
+#  sensitive   = true
+}
+
+variable "username" {
+#  description = "username db"
+#  type        = string
+#  sensitive   = true
 }
 
 variable "final_snap" {
@@ -65,24 +67,34 @@ variable "final_snap" {
   type = bool
 }
 
-variable "port" {
-  description = "Postgres port"
-  type = number
-}
-
-variable "protocol" {
-  description = "tcp protocol"
-  type = string
-}
-
-variable "cidr" {
-  description = "Vpc cidr"
-  type        = list(string)
-}
+#variable "port" {
+#  description = "Postgres port"
+#  type = number
+#}
+#
+#variable "protocol" {
+#  description = "tcp protocol"
+#  type = string
+#}
+#
+#variable "cidr" {
+#  description = "Vpc cidr"
+#  type        = list(string)
+#}
 
 variable "sg_name" {
   description = "RDS security groups name"
   type = string
+}
+
+variable "rds_sg" {
+  description = "Secret group for rds"
+  type = map(object({
+    from_port   = number
+    to_port     = number
+    protocol    = string
+    cidr_blocks = list(string)
+  }))
 }
 
 #variable "db_instance" {
@@ -102,3 +114,4 @@ variable "sg_name" {
 #    )
 #  )
 #}
+
