@@ -56,4 +56,17 @@ variable "subnets" {
   )
 }
 
+variable "rds_subnets" {
+  description = "rds subnets"
+  type = map(
+    object(
+      {
+        name                = string
+        cidr                = string
+        availability_zone   = string
+      }
+    )
+  )
+}
+
   

@@ -1,4 +1,5 @@
 #create security group for the database
+
 resource "aws_security_group" "database_security_group" {
 name        = "database security group"
 description = "enable postgres access on port 5432"
@@ -26,15 +27,16 @@ Name = var.sg_name
 }
 
 
-# # create the subnet group for the rds instance
-# resource "aws_db_subnet_group" "database_subnet_group" {
-# # name         = var.db_subnet_name
-# subnet_ids   = var.
+ # create the subnet group for the rds instance
+ resource "aws_db_subnet_group" "database_subnet_group" {
+ name         = var.db_subnet_name
+ subnet_ids   = var.rds_subnet_ids
 
-# tags   = {
-# Name = 
-# }
-# }
+
+ tags = {
+ Name = "rds-subnet-tf"
+ }
+ }
 # resource "aws_default_subnet" "default_subnet_rds" {
 # #   vpc_id = var.vpc_id
 # #   cidr_block        = "10.100.60.0/24"
@@ -42,7 +44,7 @@ Name = var.sg_name
 # }
 
 # create the rds instance
-resource "aws_db_instance" "omega-db" {
+resource "aws_db_instance" "omega_db" {
 engine               = var.engine
 allocated_storage    = var.storage
 db_name              = var.name
@@ -53,4 +55,5 @@ username             = var.username
 password             = var.password
 #parameter_group_name = "default.mysql5.7"
 skip_final_snapshot  = var.final_snap
+db_subnet_group_name = aws_db_subnet_group.database_subnet_group.name
 }

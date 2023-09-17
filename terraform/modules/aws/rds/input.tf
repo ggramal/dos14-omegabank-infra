@@ -1,11 +1,14 @@
 variable "vpc_id" {
 }
 
-# variable "rds_id" {
-# }
+ variable "rds_subnet_ids" {
+ }
 
-variable "subnet_ids" {
-}
+#variable "subnet_ids" {
+#}
+
+#variable "rds_subnet_az" {
+#}
 
 variable "engine" {
   description = "db_engine"

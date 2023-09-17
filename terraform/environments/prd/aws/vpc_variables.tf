@@ -84,8 +84,11 @@ locals {
             }
           ]
         }
-        rds_subnet = {
-          name              = "omega_rds-tf"
+
+      }
+      rds_subnets = {
+        rds_subnet_1 = {
+          name              = "omega_rds_1-tf"
           cidr              = "10.100.50.0/24"
           availability_zone = "eu-west-1b"
           routes = [
@@ -94,9 +97,17 @@ locals {
             }
           ]
         }
-
+        rds_subnet_2 = {
+          name              = "omega_rds_2-tf"
+          cidr              = "10.100.60.0/24"
+          availability_zone = "eu-west-1a"
+          routes = [
+            {
+              cidr   = "0.0.0.0/0"
+            }
+          ]
+        }
       }
-
     }
 
   }
