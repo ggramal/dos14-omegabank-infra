@@ -61,9 +61,9 @@ variable "rds_subnets" {
   type = map(
     object(
       {
-        name                = string
-        cidr                = string
-        availability_zone   = string
+        name              = string
+        cidr              = string
+        availability_zone = string
       }
     )
   )

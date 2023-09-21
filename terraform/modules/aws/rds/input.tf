@@ -1,50 +1,50 @@
 variable "vpc_id" {
 }
 
- variable "rds_subnet_ids" {
- }
+variable "rds_subnet_ids" {
+}
 
 
 variable "engine" {
   description = "db_engine"
-  type = string
+  type        = string
 }
 
 variable "db_subnet_name" {
   description = "db_subnet_name"
-  type = string
+  type        = string
 }
 
 variable "publicly_accessible" {
   description = "publicly_accessible"
-  type = bool
+  type        = bool
 }
 
 variable "name" {
   description = "db_name"
-  type = string
+  type        = string
 }
 
 variable "storage" {
   description = "allocated_storage"
-  type = number
+  type        = number
 }
 
 variable "engine_version" {
   description = "engine_version"
-  type = string
+  type        = string
 }
 
 variable "instance_class" {
   description = "instance_class"
-  type = string
+  type        = string
 }
 
 variable "password" {
   description = "password for db user"
   type        = string
   sensitive   = true
-  default = null
+  default     = null
 }
 
 variable "username" {
@@ -55,7 +55,7 @@ variable "username" {
 
 variable "final_snap" {
   description = "skip final snapshot"
-  type = bool
+  type        = bool
 }
 
 variable "identifier" {
@@ -64,7 +64,7 @@ variable "identifier" {
 
 variable "sg_name" {
   description = "RDS security groups name"
-  type = string
+  type        = string
 }
 
 variable "rds_sg" {
