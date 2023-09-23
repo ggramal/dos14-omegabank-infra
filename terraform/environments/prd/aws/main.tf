@@ -78,3 +78,10 @@ module "route53" {
 #  owners = ["099720109477"] # Canonical
 #}
 ##
+
+
+module "asg"{
+  source       = "../../../modules/aws/asg/"
+  vpc_id = module.vpcs.vpc_id
+
+}
