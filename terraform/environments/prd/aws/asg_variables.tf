@@ -1,3 +1,4 @@
+locals {
 security_group = {
   bank_sg = {
     name        = "bank_sg_tf"
@@ -194,5 +195,4 @@ EOT
             }
           
         }
-      # }
-    # }
+}

@@ -1,16 +1,23 @@
 variable "security_group" {
-  type = map(object({
-    name        = string
-    description = string
-    vpc_id      = string
-    ingress = list(object({
-      description = string
-      from_port   = number
-      to_port     = number
-      protocol    = string
-      cidr_blocks = list(string)
-    }))
-  }))
+  type = map(
+    object(
+      {
+        name        = string
+        description = string
+        ingress = list(
+          object(
+            {
+              description = string
+              from_port   = number
+              to_port     = number
+              protocol    = string
+              cidr_blocks = list(string)
+            }
+          )
+        )
+      }
+    )
+  )
 }
 
 variable "launch_template" {
@@ -53,8 +60,8 @@ variable "autoscaling_groups" {
 # # variable "launch_template_id" {
 # # }
 
-# variable "vpc_id" {
-# }
+ variable "vpc_id" {
+ }
 
 # variable "subnet_ids" {
 # }
