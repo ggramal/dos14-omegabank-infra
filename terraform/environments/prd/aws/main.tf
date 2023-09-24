@@ -74,16 +74,10 @@ module "vpcs" {
 ##
 
 
-#module "asg"{
-#  source       = "../../../modules/aws/asg/"
-#  vpc_id = module.vpcs.vpc_id
-#  security_group = local.security_group
-#  autoscaling_groups = local.autoscaling_groups
-#  launch_template = local.launch_template
-#}
-module "asgs" {
-  source = "../../../modules/aws/asg_alt"
-  asg_sg = local.asgs.asg_sg
-  asg_services = local.asgs.asgs_services
+module "asg"{
+  source       = "../../../modules/aws/asg/"
   vpc_id = module.vpcs.vpc_id
+  security_group = local.security_group
+  autoscaling_groups = local.autoscaling_groups
+  launch_template = local.launch_template
 }
