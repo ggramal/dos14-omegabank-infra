@@ -50,4 +50,5 @@ resource "aws_db_instance" "omega_db" {
   skip_final_snapshot  = var.final_snap
   db_subnet_group_name = aws_db_subnet_group.database_subnet_group.name
   identifier           = var.identifier
+  vpc_security_group_ids = aws_security_group.database_security_group.id
 }
