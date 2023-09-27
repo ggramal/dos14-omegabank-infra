@@ -1,0 +1,15 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+packages:
+  - python3-pip
+  - git
+write_files:
+  - content: |
+      127.0.0.1 ansible_connection=local
+    path: /tmp/inventory.ini
+    permissions: '0444'
+runcmd:
+  - pip install ansible
+  - cd /tmp/ && git clone --branch feature-hw-26 https://github.com/avmikholap/dos14-Miholap_Aleksey_git-flow.git authz
+  - cd /tmp/authz/ansible && ansible-playbook -i /tmp/inventory.ini app_playbook.yml -e branch=feature-hw-26
