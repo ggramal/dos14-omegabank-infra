@@ -40,14 +40,34 @@ module "vpcs" {
   internet_gws = local.vpcs.omega-tf.internet_gws
   nat_gws      = local.vpcs.omega-tf.nat_gws
   subnets      = local.vpcs.omega-tf.subnets
+  rds_subnets  = local.vpcs.omega-tf.rds_subnets
+}
+
+module "omega_rds" {
+  source              = "../../../modules/aws/rds/"
+  vpc_id              = module.vpcs.vpc_id
+  db_subnet_name      = local.omega_rds.db_subnet_name
+  publicly_accessible = local.omega_rds.publicly_accessible
+  engine_version      = local.omega_rds.engine_version
+  name                = local.omega_rds.name
+  engine              = local.omega_rds.engine
+  storage             = local.omega_rds.storage
+  instance_class      = local.omega_rds.instance_class
+  username            = local.omega_rds.username
+  password            = random_password.password.result
+  final_snap          = local.omega_rds.final_snap
+  sg_name             = local.omega_rds.sg_name
+  rds_subnet_ids      = module.vpcs.rds_subnet_ids
+  rds_sg              = local.sg_rds
+  identifier          = local.omega_rds.identifier
 }
 
 module "route53" {
-  source       = "../../../modules/aws/route53/"
-  zone_name       = local.route53.zone_name
-  record_name     = local.route53.record_name
-  record_type     = local.route53.record_type
-  cname_records      = local.route53.cname_records
+  source        = "../../../modules/aws/route53/"
+  zone_name     = local.route53.zone_name
+  record_name   = local.route53.record_name
+  record_type   = local.route53.record_type
+  cname_records = local.route53.cname_records
 }
 
 #  owners = ["099720109477"] # Canonical

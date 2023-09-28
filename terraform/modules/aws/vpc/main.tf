@@ -31,6 +31,20 @@ resource "aws_eip" "nats" {
   domain = "vpc"
 }
 
+# resource "aws_subnet" "rds_subnet" {
+#   vpc_id                  = aws_vpc.main.id
+
+#   cidr_block              = var.subnet_rds.cidr
+#   map_public_ip_on_launch = var.subnet_rds.public_ip_on_launch
+#   availability_zone       = var.subnet_rds.availability_zone
+
+#   tags = {
+#     Name = var.subnet_rds.name
+#   }
+# }
+
+
+
 resource "aws_subnet" "main" {
   for_each                = var.subnets
   vpc_id                  = aws_vpc.main.id
@@ -84,7 +98,7 @@ resource "aws_route_table" "routes" {
     gateway_id = "local"
   }
   tags = {
-    Name = "${var.name}-${each.value.name}-tf"
+    Name = "${var.name}-${each.value.name}"
   }
 }
 
