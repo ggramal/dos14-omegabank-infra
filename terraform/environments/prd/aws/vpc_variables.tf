@@ -111,10 +111,10 @@ locals {
     }
 
   }
-  subnet_rds = {
-    name              = "omega-rds-subnet-tf"
-    cidr              = "10.100.50.0/24"
-    availability_zone = "eu-west-1b"
-  }
+          subnet_rds = {
+          name              = "omega-rds-subnet-tf"
+          cidr              = "10.100.50.0/24"
+          availability_zone = "eu-west-1b"
+} 
 }
 
