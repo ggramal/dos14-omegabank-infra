@@ -37,18 +37,8 @@ variable "engine_version" {
 
 variable "instance_class" {
   description = "instance_class"
-  type = string
+  type        = string
 }
-
-#variable "username" {
-#  description = "username db"
-#  type = string
-#}
-
-#variable "password" {
-#  description = "password db"
-#  type = string
-#}
 
 variable "password" {
   description = "password for db user"
@@ -68,20 +58,9 @@ variable "final_snap" {
   type        = bool
 }
 
-#variable "port" {
-#  description = "Postgres port"
-#  type = number
-#}
-#
-#variable "protocol" {
-#  description = "tcp protocol"
-#  type = string
-#}
-#
-#variable "cidr" {
-#  description = "Vpc cidr"
-#  type        = list(string)
-#}
+variable "identifier" {
+  description = "omegabank-tf"
+}
 
 variable "sg_name" {
   description = "RDS security groups name"
