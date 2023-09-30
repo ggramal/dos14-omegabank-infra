@@ -8,7 +8,7 @@ output "subnet_ids" {
 
 output "private_subnet_ids" {
   value = [
-    for subnet_key, subnet_obj in aws_subnet.main:
+    for subnet_key, subnet_obj in aws_subnet.main :
     subnet_obj.id
     if length(regexall("private", subnet_key)) > 0
   ]
@@ -16,7 +16,7 @@ output "private_subnet_ids" {
 
 output "public_subnet_ids" {
   value = [
-    for subnet_key, subnet_obj in aws_subnet.main:
+    for subnet_key, subnet_obj in aws_subnet.main :
     subnet_obj.id
     if length(regexall("public", subnet_key)) > 0
   ]
