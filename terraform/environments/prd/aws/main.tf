@@ -60,5 +60,23 @@ module "asg" {
   private_subnet_ids = module.vpcs.private_subnet_ids
   asg_sg             = local.asgs.asg_sg
   asg_services       = local.asgs.asgs_services
+}
 
+module "alb" {
+  vpc_id            = module.vpcs.vpc_id
+  public_subnet_ids = module.vpcs.public_subnet_ids
+  source             = "../../../modules/aws/alb/"
+  name               = local.name
+  internal           = local.internal
+  load_balancer_type = local.load_balancer_type
+  ip_address_type    = local.ip_address_type
+  sg_name          = local.sg_name
+  sg_description   = local.sg_description
+  sg_rules_ingress = local.sg_rules_ingress
+  alb_tgs    = local.tgs_alb
+  tg_lb_type = local.tg_lb_type
+  listener_http  = local.listener_http
+  listener_https = local.listener_https
+  rules = local.rules
+  extra_ssl_certs = local.cert
 }
