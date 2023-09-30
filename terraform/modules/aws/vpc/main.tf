@@ -37,7 +37,7 @@ resource "aws_eip" "nats" {
 #   cidr_block              = var.subnet_rds.cidr
 #   map_public_ip_on_launch = var.subnet_rds.public_ip_on_launch
 #   availability_zone       = var.subnet_rds.availability_zone
-  
+
 #   tags = {
 #     Name = var.subnet_rds.name
 #   }

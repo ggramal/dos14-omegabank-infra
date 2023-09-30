@@ -17,6 +17,22 @@ provider "aws" {
   region = "eu-west-1"
 }
 
+
+#data "aws_ami" "ubuntu" {
+#  most_recent = true
+#
+#  filter {
+#    name   = "name"
+#    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64*"]
+#  }
+#
+#  filter {
+#    name   = "virtualization-type"
+#    values = ["hvm"]
+#  }
+#
+#}
+
 module "vpcs" {
   source       = "../../../modules/aws/vpc/"
   name         = local.vpcs.omega-tf.name
@@ -24,40 +40,41 @@ module "vpcs" {
   internet_gws = local.vpcs.omega-tf.internet_gws
   nat_gws      = local.vpcs.omega-tf.nat_gws
   subnets      = local.vpcs.omega-tf.subnets
-  rds_subnets  = local.vpcs.omega-tf.rds_subnets
+  #subnet_rds  = local.subnet_rds
+  rds_subnets = local.vpcs.omega-tf.rds_subnets
 }
 
-module "omega_rds" {
-  source              = "../../../modules/aws/rds/"
-  vpc_id              = module.vpcs.vpc_id
-  db_subnet_name      = local.omega_rds.db_subnet_name
+module "omega_rds"{
+  source = "../../../modules/aws/rds/"
+  vpc_id = module.vpcs.vpc_id
+#  subnet_ids = module.vpcs.subnet_ids
+  # rds_id = module.vpcs.rds_id
+  db_subnet_name = local.omega_rds.db_subnet_name
   publicly_accessible = local.omega_rds.publicly_accessible
-  engine_version      = local.omega_rds.engine_version
-  name                = local.omega_rds.name
-  engine              = local.omega_rds.engine
-  storage             = local.omega_rds.storage
-  instance_class      = local.omega_rds.instance_class
-  username            = local.omega_rds.username
-  password            = local.omega_rds.password
-  final_snap          = local.omega_rds.final_snap
-  sg_name             = local.omega_rds.sg_name
-  rds_subnet_ids      = module.vpcs.rds_subnet_ids
-  rds_sg              = local.sg_rds
+  engine_version = local.omega_rds.engine_version
+  name = local.omega_rds.name
+  engine = local.omega_rds.engine
+  storage = local.omega_rds.storage
+  instance_class = local.omega_rds.instance_class
+  username = local.omega_rds.username
+  password = local.omega_rds.password
+  final_snap = local.omega_rds.final_snap
+#  cidr = local.omega_rds.cidr
+#  port = local.omega_rds.port
+#  protocol = local.omega_rds.protocol
+  sg_name = local.omega_rds.sg_name
+  rds_subnet_ids = module.vpcs.rds_subnet_ids
+  rds_sg = local.sg_rds
 }
 
 module "route53" {
-  source        = "../../../modules/aws/route53/"
-  zone_name     = local.route53.zone_name
-  record_name   = local.route53.record_name
-  record_type   = local.route53.record_type
-  cname_records = local.route53.cname_records
+  source       = "../../../modules/aws/route53/"
+  zone_name       = local.route53.zone_name
+  record_name     = local.route53.record_name
+  record_type     = local.route53.record_type
+  cname_records      = local.route53.cname_records
 }
 
-module "asg" {
-  source             = "../../../modules/aws/asg/"
-  vpc_id             = module.vpcs.vpc_id
-  private_subnet_ids = module.vpcs.private_subnet_ids
-  asg_sg             = local.asgs.asg_sg
-  asg_services       = local.asgs.asgs_services
-
-}
+#  owners = ["099720109477"] # Canonical
+#}
+##
