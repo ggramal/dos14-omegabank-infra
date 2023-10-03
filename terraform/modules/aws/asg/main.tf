@@ -19,9 +19,11 @@ resource "aws_launch_template" "lt" {
   instance_type          = each.value.lt.instance_type
   key_name               = each.value.lt.key_name
   vpc_security_group_ids = ["${aws_security_group.asg_sg.id}"]
-  user_data              = base64encode(each.value.lt.path)
-
+  user_data              = base64encode(templatefile(each.value.lt.path, {
+      gitbranch = each.value.lt.git_branch
+    }))
 }
+
 
 resource "aws_autoscaling_group" "asg" {
   for_each            = var.asg_services

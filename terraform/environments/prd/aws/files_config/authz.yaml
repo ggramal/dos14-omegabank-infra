@@ -11,5 +11,5 @@ write_files:
     permissions: '0444'
 runcmd:
   - pip install ansible
-  - cd /tmp/ && git clone --branch feature-hw-26 https://github.com/avmikholap/dos14-Miholap_Aleksey_git-flow.git authz
+  - cd /tmp/ && git clone --branch ${gitbranch} https://github.com/avmikholap/dos14-Miholap_Aleksey_git-flow.git authz
   - cd /tmp/authz/ansible && ansible-playbook -i /tmp/inventory.ini app_playbook.yml -e branch=feature-hw-26

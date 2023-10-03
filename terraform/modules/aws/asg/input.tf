@@ -11,6 +11,7 @@ variable "asg_services" {
         path          = string
         instance_type = string
         key_name      = string
+        git_branch = string
       })
       asg = object({
         name             = string
