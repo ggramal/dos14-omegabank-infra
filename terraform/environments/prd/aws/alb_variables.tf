@@ -54,8 +54,8 @@ locals {
   listener_https = {
     port            = 443
     protocol        = "HTTPS"
-    ssl_policy      = "ELBSecurityPolicy-2016-08"
-    certificate_arn = "" #need route53
+    ssl_policy      = "ELBSecurityPolicy-TLS13-1-2-2021-06"
+    certificate_arn = local.cert
     action_type     = "forward"
   }
 
@@ -79,5 +79,5 @@ locals {
       path_values = ["/api/v1/credits/*", "/api/v1/deposits/*", "/api/v1/deposits", "/api/v1/credits"]
     }
   ]
-  cert = "здесь нужно указать ARN сертификата"
+  cert = "arn:aws:acm:eu-west-1:546240550610:certificate/1a5a24e5-95ba-44f5-a456-08401c724647"
 }

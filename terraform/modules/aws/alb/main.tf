@@ -17,7 +17,7 @@ resource "aws_lb_target_group" "tgs" {
   target_type = var.tg_lb_type
 
   dynamic "health_check" {
-    for_each = try([var.alb_tgs[count.index].health_check], [])
+    for_each = try([var.alb_tgs[each.key].health_check], [])
 
     content {
       path    = try(health_check.value.path, null)
@@ -30,13 +30,21 @@ resource "aws_lb_target_group" "tgs" {
   }
 }
 
-resource "aws_lb_listener_rule" "https_listener_rule" {
+resource "aws_lb_listener_rule" "omega-tf" {
+  count        = length(var.rules)
   listener_arn = aws_lb_listener.frontend_https.arn
+  priority     = var.rules[count.index].priority
 
-}
+  action {
+    type             = var.rules[count.index].type
+    target_group_arn = aws_lb_target_group.tgs[var.rules[count.index].name].arn
+  }
 
-resource "aws_lb_listener_rule" "http_listener_rule_tf" {
-  listener_arn = aws_lb_listener.frontend_http
+  condition {
+    path_pattern {
+      values = var.rules[count.index].path_values
+    }
+  }
 }
 
 resource "aws_lb_listener" "frontend_http" {
@@ -58,24 +66,20 @@ resource "aws_lb_listener" "frontend_http" {
 resource "aws_lb_listener" "frontend_https" {
   load_balancer_arn = aws_lb.omega.arn
 
-  port            = var.listener_https["port"]
-  protocol        = var.listener_https["protocol"]
-  certificate_arn = var.listener_https["certificate_arn"] #route 53
-  ssl_policy      = var.listener_https["ssl_policy"]  #route 53
+  port            = var.listener_https.port
+  protocol        = var.listener_https.protocol
+  certificate_arn = var.listener_https.certificate_arn
+  ssl_policy      = var.listener_https.ssl_policy
 
   default_action {
-    type = var.listener_https["action_type"]
-    redirect {
-      port        = var.listener_https["action_port"]
-      protocol    = var.listener_https["action_protocol"]
-      status_code = var.listener_https["action_status_code"]
-    }
+    type = var.listener_https.action_type
+    target_group_arn = aws_lb_target_group.tgs["authz"].arn
   }
 }
 
 resource "aws_lb_listener_certificate" "https_cert" {
   listener_arn    = aws_lb_listener.frontend_https.arn
-  certificate_arn = var.extra_ssl_certs["certificate_arn"] #???
+  certificate_arn = var.extra_ssl_certs
 }
 
 ################################################################################

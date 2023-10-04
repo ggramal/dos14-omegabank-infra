@@ -7,8 +7,9 @@ variable "public_subnet_ids" {
   description = "vpc public subnet ids"
 }
 
-variable "extra_ssl_certs" { #Нужен ARN сертификата
-  #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener_certificate
+variable "extra_ssl_certs" {
+  description = "certificate for alb's listeners"
+  type = string
 }
 
 variable "name" {
