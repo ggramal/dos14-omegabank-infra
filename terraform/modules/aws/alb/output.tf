@@ -10,7 +10,7 @@ output "lb_arn" {
 
 output "lb_dns_name" {
   description = "The DNS name of the load balancer"
-  value       = try(aws_lb.omega.dns_name, "")
+  value       = aws_lb.omega.dns_name
 }
 
 output "lb_arn_suffix" {

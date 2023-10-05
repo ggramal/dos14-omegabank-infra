@@ -9,11 +9,11 @@ locals {
     ports = [
       {
         port        = 80
-        protocol    = "tcp"
+        protocol    = "TCP"
         description = "http from internet"
       },
       {
-        protocol    = "tcp"
+        protocol    = "TCP"
         port        = 443
         description = "https from internet"
       }
@@ -23,24 +23,24 @@ locals {
   tgs_alb = {
     authz = {
       port     = 80
-      protocol = "TCP"
+      protocol = "HTTP"
       path     = "/api/v1/authz/health_check"
       matcher  = 200
     }
     authn = {
       port     = 80
-      protocol = "TCP"
+      protocol = "HTTP"
       path     = "/api/v1/authn/health_check"
       matcher  = 200
     }
     bank = {
       port     = 80
-      protocol = "TCP"
+      protocol = "HTTP"
       path     = "/api/v1/bank/health_check"
       matcher  = 200
     }
   }
-  tg_lb_type = "alb"
+  tg_lb_type = "instance"
 
   listener_http = {
     port               = 80

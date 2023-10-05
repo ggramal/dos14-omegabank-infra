@@ -1,7 +1,4 @@
 
-# provider "aws" {
-#   region = "eu-central-1"
-# }
 
 resource "aws_route53_zone" "omega" {
   name = var.zone_name
@@ -13,10 +10,9 @@ resource "aws_route53_record" "record" {
   name    = var.record_name
   type    = var.record_type
 
-  #we don’t have alb, I specified entries in the alias of the current A record, then we will change it to substitute the values of alb.
   alias {
-    name                   = "dualstack.alb-omega-2144136904.eu-west-1.elb.amazonaws.com."
-    zone_id                = aws_route53_zone.omega.id
+    name                   = var.lb_dns_name
+    zone_id                = var.lb_zone_id
     evaluate_target_health = true
   }
 }

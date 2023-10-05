@@ -9,7 +9,7 @@ resource "aws_lb" "omega" {
 
 resource "aws_lb_target_group" "tgs" {
   for_each = var.alb_tgs
-  name     = var.name
+  name     = each.key
   vpc_id   = var.vpc_id
   port     = each.value.port
   protocol = each.value.protocol

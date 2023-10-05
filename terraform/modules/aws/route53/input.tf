@@ -1,3 +1,9 @@
+variable "lb_dns_name" {
+}
+
+variable "lb_zone_id" {
+}
+
 variable "zone_name" {
   description = "Route53 zone"
   type        = string
