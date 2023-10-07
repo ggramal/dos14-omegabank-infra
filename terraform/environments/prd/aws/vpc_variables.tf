@@ -28,7 +28,7 @@ locals {
           ]
         }
         public_subnet2 = {
-          name                = "omega_public1-tf"
+          name                = "omega_public2-tf"
           cidr                = "10.100.12.0/24"
           public_ip_on_launch = true
           availability_zone   = "eu-west-1b"
@@ -40,7 +40,7 @@ locals {
           ]
         }
         public_subnet3 = {
-          name                = "omega_public1-tf"
+          name                = "omega_public3-tf"
           cidr                = "10.100.13.0/24"
           public_ip_on_launch = true
           availability_zone   = "eu-west-1c"
