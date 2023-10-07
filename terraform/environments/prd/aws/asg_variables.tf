@@ -28,7 +28,7 @@ locals {
           instance_type = "t2.micro"
           key_name      = "test_key"
           git_branch    = "features-hw-24-26"
-          secrets = var.secrets.authn
+          secrets       = var.secrets.authn
 
         }
         asg = {
@@ -46,7 +46,7 @@ locals {
           instance_type = "t2.micro"
           key_name      = "test_key"
           git_branch    = "feature-hw-26"
-          secrets = var.secrets.authz
+          secrets       = var.secrets.authz
 
         }
         asg = {
@@ -65,7 +65,7 @@ locals {
           instance_type = "t2.micro"
           key_name      = "test_key"
           git_branch    = "feature29"
-          secrets = var.secrets.bank
+          secrets       = var.secrets.bank
         }
         asg = {
           name             = "asg-bank-tf"
