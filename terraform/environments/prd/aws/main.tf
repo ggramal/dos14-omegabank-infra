@@ -60,5 +60,5 @@ module "asg" {
   private_subnet_ids = module.vpcs.private_subnet_ids
   asg_sg             = local.asgs.asg_sg
   asg_services       = local.asgs.asgs_services
-
+  # secret = local.secrets
 }

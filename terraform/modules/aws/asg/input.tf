@@ -12,6 +12,7 @@ variable "asg_services" {
         instance_type = string
         key_name      = string
         git_branch = string
+        secrets = string
       })
       asg = object({
         name             = string
@@ -37,3 +38,4 @@ variable "asg_sg" {
 variable "vpc_id" {
   description = "Get vpc id"
 }
+

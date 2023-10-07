@@ -21,6 +21,7 @@ resource "aws_launch_template" "lt" {
   vpc_security_group_ids = ["${aws_security_group.asg_sg.id}"]
   user_data              = base64encode(templatefile(each.value.lt.path, {
       gitbranch = each.value.lt.git_branch
+      secrets = each.value.lt.secrets
     }))
 }
 

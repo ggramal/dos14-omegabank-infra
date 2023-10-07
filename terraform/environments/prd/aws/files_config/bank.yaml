@@ -10,7 +10,7 @@ write_files:
   path: /tmp/inventory.ini
   permissions: '0444'
 - content: |
-    bank
+     ${secrets}
   path: /tmp/.vault_pass
   permissions: '0444'
 runcmd:
