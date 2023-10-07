@@ -10,10 +10,10 @@ write_files:
   path: /tmp/inventory.ini
   permissions: '0444'
 - content: |
-    bank
+     ${secrets}
   path: /tmp/.vault_pass
   permissions: '0444'
 runcmd:
    - pip install ansible
-   - cd /tmp/ && git clone --branch feature29 https://github.com/lowkent2me/dos14-Kot-git-flow.git bank
+   - cd /tmp/ && git clone --branch ${gitbranch} https://github.com/lowkent2me/dos14-Kot-git-flow.git bank
    - cd /tmp/bank/Ansible && ansible-playbook -i /tmp/inventory.ini playdocker.yml --vault-password-file=/tmp/.vault_pass --extra-vars "BRANCH=feature29"

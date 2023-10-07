@@ -27,6 +27,8 @@ locals {
           path          = "./files_config/authn.yaml"
           instance_type = "t2.micro"
           key_name      = "test_key"
+          git_branch    = "features-hw-24-26"
+          secrets       = var.secrets.authn
 
         }
         asg = {
@@ -44,6 +46,8 @@ locals {
           path          = "./files_config/authz.yaml"
           instance_type = "t2.micro"
           key_name      = "test_key"
+          git_branch    = "feature-hw-26"
+          secrets       = var.secrets.authz
 
         }
         asg = {
@@ -61,6 +65,8 @@ locals {
           path          = "./files_config/bank.yaml"
           instance_type = "t2.micro"
           key_name      = "test_key"
+          git_branch    = "feature29"
+          secrets       = var.secrets.bank
         }
         asg = {
           name             = "asg-bank-tf"
