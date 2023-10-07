@@ -17,6 +17,7 @@ variable "asg_services" {
         desired_capacity = number
         min_size         = number
         max_size         = number
+        tg_alb           = any
       })
     }
   ))

@@ -43,6 +43,30 @@ output "https_listener_ids" {
   value       = aws_lb_listener.frontend_https[*].id
 }
 
+output "tg_bank_arn" {
+  value = [
+    for tg_key, tg_obj in aws_lb_target_group.tgs :
+    tg_obj.arn
+    if length(regexall("bank", tg_key)) > 0
+  ]
+}
+
+output "tg_authz_arn" {
+  value = [
+    for tg_key, tg_obj in aws_lb_target_group.tgs :
+    tg_obj.arn
+    if length(regexall("authz", tg_key)) > 0
+  ]
+}
+
+output "tg_authn_arn" {
+  value = [
+    for tg_key, tg_obj in aws_lb_target_group.tgs :
+    tg_obj.arn
+    if length(regexall("authn", tg_key)) > 0
+  ]
+}
+
 #output "target_group_arns" {
 #  description = "ARNs of the target groups. Useful for passing to your Auto Scaling group"
 #  value       = aws_lb_target_group.tgs[*].arn

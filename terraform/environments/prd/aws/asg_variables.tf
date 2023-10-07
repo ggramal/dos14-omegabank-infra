@@ -34,6 +34,7 @@ locals {
           desired_capacity = 2
           min_size         = 2
           max_size         = 4
+          tg_alb           = module.alb.tg_authn_arn
         }
       }
 
@@ -50,6 +51,7 @@ locals {
           desired_capacity = 2
           min_size         = 2
           max_size         = 4
+          tg_alb           = module.alb.tg_authz_arn
         }
       }
 
@@ -65,6 +67,7 @@ locals {
           desired_capacity = 2
           min_size         = 2
           max_size         = 4
+          tg_alb           = module.alb.tg_bank_arn
         }
       }
     }
