@@ -60,6 +60,24 @@ variable "sg_rules_ingress" {
   )
 }
 
+variable "sg_rules_egress" {
+  description = "egress rules for alb security group"
+  type = object(
+    {
+      ports = list(
+        object(
+          {
+            port        = number
+            protocol    = string
+            description = string
+          }
+        )
+      )
+      cidrs_ipv4 = list(string)
+    }
+  )
+}
+
 variable "alb_tgs" {
   description = "alb target groups"
   type = map(

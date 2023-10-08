@@ -20,6 +20,16 @@ locals {
     ]
     cidrs_ipv4 = ["0.0.0.0/0"]
   }
+  sg_rules_egress = {
+    ports = [
+      {
+        port        = 0
+        protocol    = "-1"
+        description = "all"
+      }
+    ]
+    cidrs_ipv4 = ["0.0.0.0/0"]
+  }
   tgs_alb = {
     authz = {
       port     = 80

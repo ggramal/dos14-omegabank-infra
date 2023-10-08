@@ -13,12 +13,12 @@ resource "aws_security_group" "database_security_group" {
     cidr_blocks = var.rds_sg.ingress.cidr_blocks
   }
 
-  #egress {
-  #from_port        = var.port
-  #to_port          = var.port
-  #protocol         = var.protocol
-  #cidr_blocks      = var.cidr
-  #}
+  egress {
+    from_port   = var.rds_sg.egress.from_port
+    to_port     = var.rds_sg.egress.to_port
+    protocol    = var.rds_sg.egress.protocol
+    cidr_blocks = var.rds_sg.egress.cidr_blocks
+  }
 
   tags = {
     Name = var.sg_name

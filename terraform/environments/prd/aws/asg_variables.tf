@@ -2,8 +2,8 @@ locals {
   asgs = {
     asg_sg = {
       ingress_443 = {
-        from_port   = 443
-        to_port     = 443
+        from_port   = 0
+        to_port     = 65535
         protocol    = "tcp"
         cidr_blocks = ["10.100.21.0/24", "10.100.22.0/24", "10.100.23.0/24"]
       }
@@ -17,7 +17,7 @@ locals {
         from_port   = 0
         to_port     = 0
         protocol    = "-1"
-        cidr_blocks = ["10.100.21.0/24", "10.100.22.0/24", "10.100.23.0/24"]
+        cidr_blocks = ["0.0.0.0/0"]
       }
     }
     asgs_services = {

@@ -62,6 +62,14 @@ resource "aws_security_group" "asg_sg" {
     cidr_blocks = var.asg_sg.ingress_80.cidr_blocks
   }
 
+  egress {
+    from_port   = var.asg_sg.egress.from_port
+    to_port     = var.asg_sg.egress.to_port
+    protocol    = var.asg_sg.egress.protocol
+    cidr_blocks = var.asg_sg.egress.cidr_blocks
+  }
+
+
   tags = {
     Name = "asg-sg-omega-tf"
   }

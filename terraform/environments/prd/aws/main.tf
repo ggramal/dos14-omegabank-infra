@@ -75,6 +75,7 @@ module "alb" {
   sg_name            = local.sg_name
   sg_description     = local.sg_description
   sg_rules_ingress   = local.sg_rules_ingress
+  sg_rules_egress    = local.sg_rules_egress
   alb_tgs            = local.tgs_alb
   tg_lb_type         = local.tg_lb_type
   listener_http      = local.listener_http
