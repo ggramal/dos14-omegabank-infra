@@ -32,7 +32,8 @@ variable "asg_sg" {
     from_port   = number
     to_port     = number
     protocol    = string
-    cidr_blocks = set(string)
+    cidr_blocks = optional(set(string))
+    sg_id = optional(string)
   }))
 }
 

@@ -91,7 +91,7 @@ output "security_group_arn" {
   value       = try(aws_security_group.alb_sg.arn, null)
 }
 
-output "security_group_id" {
+output "alb_security_group_id" {
   description = "ID of the security group"
   value       = try(aws_security_group.alb_sg.id, null)
 }

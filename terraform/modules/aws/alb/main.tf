@@ -20,19 +20,6 @@ resource "aws_lb_target_group" "tgs" {
     path    = each.value.path
     matcher = each.value.matcher
   }
-
-  # dynamic "health_check" {
-  #   for_each = try([var.alb_tgs[each.key].health_check], [])
-
-  #   content {
-  #     path    = try(health_check.value.path, null)
-  #     matcher = try(health_check.value.matcher, null)
-  #   }
-  # }
-
-  # lifecycle {
-  #   create_before_destroy = true
-  # }
 }
 
 resource "aws_lb_listener_rule" "omega-tf" {
@@ -77,8 +64,13 @@ resource "aws_lb_listener" "frontend_https" {
   ssl_policy      = var.listener_https.ssl_policy
 
   default_action {
-    type = var.listener_https.action_type
-    target_group_arn = aws_lb_target_group.tgs["authz"].arn
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "text/plain"
+#      message_body = "Page not found"
+      status_code  = "404"
+    }
   }
 }
 
@@ -123,5 +115,7 @@ resource "aws_security_group" "alb_sg" {
 
     }
   }
-
+  tags = {
+    Name = "alb-sg-omega-tf"
+  }
 }

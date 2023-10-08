@@ -74,19 +74,19 @@ locals {
       name        = "authz"
       priority    = 99
       type        = "forward"
-      path_values = ["/api/v1/users/*", "/api/v1/organisations/*", "/api/v1/users", "/api/v1/organisations", "/api/v1/?*/authz/?*"]
+      path_values = ["/api/v1/users/*", "/api/v1/organisations/*", "/api/v1/users", "/api/v1/organisations", "/api/v1/authz/health_check"]
     },
     {
       name        = "authn"
       priority    = 98
       type        = "forward"
-      path_values = ["/api/v1/identity/validate", "/api/v1/identity/login", "/api/v1/identity"]
+      path_values = ["/api/v1/identity/validate", "/api/v1/identity/login", "/api/v1/identity", "/api/v1/authn/health_check"]
     },
     {
       name        = "bank"
       priority    = 97
       type        = "forward"
-      path_values = ["/api/v1/credits/*", "/api/v1/deposits/*", "/api/v1/deposits", "/api/v1/credits"]
+      path_values = ["/api/v1/credits/*", "/api/v1/deposits/*", "/api/v1/deposits", "/api/v1/credits", "/api/v1/bank/health_check"]
     }
   ]
   cert = "arn:aws:acm:eu-west-1:546240550610:certificate/1a5a24e5-95ba-44f5-a456-08401c724647"

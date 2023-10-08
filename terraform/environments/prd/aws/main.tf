@@ -17,6 +17,32 @@ provider "aws" {
   region = "eu-west-1"
 }
 
+#data "aws_ami" "ubuntu" {
+#  most_recent = true
+#
+#  filter {
+#    name   = "name"
+#    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64*"]
+#  }
+#
+#  filter {
+#    name   = "virtualization-type"
+#    values = ["hvm"]
+#  }
+#}
+#
+#resource "aws_instance" "jump" {
+#  ami           = data.aws_ami.ubuntu.id
+#  instance_type = "t2.micro"
+#  subnet_id = module.vpcs.public_subnet_ids[0]
+#  key_name = "test_key"
+#
+#
+#  tags = {
+#    Name = "jumphost"
+#  }
+#}
+
 module "vpcs" {
   source       = "../../../modules/aws/vpc/"
   name         = local.vpcs.omega-tf.name
