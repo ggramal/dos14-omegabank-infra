@@ -1,0 +1,15 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+packages:
+ - python3-pip
+ - git
+write_files:
+- content: |
+    127.0.0.1 ansible_connection=local
+  path: /tmp/inventory.ini
+  permissions: '0444'
+runcmd:
+   - pip install ansible
+   - cd /tmp/ && git clone --branch ${gitbranch} https://github.com/CyberCuCuber/dos14-polikarpov_ruslan-gitflow.git authn
+   - cd /tmp/authn/ansible && ansible-playbook -i /tmp/inventory.ini playbook.yaml

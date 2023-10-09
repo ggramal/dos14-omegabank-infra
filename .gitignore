@@ -2,4 +2,4 @@
 *.tfstate*
 *.terraform/
 .idea
-
+terraform/environments/prd/aws/variables_secret.tf

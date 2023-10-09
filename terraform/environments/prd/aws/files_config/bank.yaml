@@ -1,0 +1,19 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+packages:
+ - python3-pip
+ - git
+write_files:
+- content: |
+    127.0.0.1 ansible_connection=local
+  path: /tmp/inventory.ini
+  permissions: '0444'
+- content: |
+     ${secrets}
+  path: /tmp/.vault_pass
+  permissions: '0444'
+runcmd:
+   - pip install ansible
+   - cd /tmp/ && git clone --branch ${gitbranch} https://github.com/lowkent2me/dos14-Kot-git-flow.git bank
+   - cd /tmp/bank/Ansible && ansible-playbook -i /tmp/inventory.ini playdocker.yml --vault-password-file=/tmp/.vault_pass --extra-vars "BRANCH=feature29"

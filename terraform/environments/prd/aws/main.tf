@@ -17,22 +17,6 @@ provider "aws" {
   region = "eu-west-1"
 }
 
-
-#data "aws_ami" "ubuntu" {
-#  most_recent = true
-#
-#  filter {
-#    name   = "name"
-#    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64*"]
-#  }
-#
-#  filter {
-#    name   = "virtualization-type"
-#    values = ["hvm"]
-#  }
-#
-#}
-
 module "vpcs" {
   source       = "../../../modules/aws/vpc/"
   name         = local.vpcs.omega-tf.name
@@ -70,6 +54,11 @@ module "route53" {
   cname_records = local.route53.cname_records
 }
 
-#  owners = ["099720109477"] # Canonical
-#}
-##
+module "asg" {
+  source             = "../../../modules/aws/asg/"
+  vpc_id             = module.vpcs.vpc_id
+  private_subnet_ids = module.vpcs.private_subnet_ids
+  asg_sg             = local.asgs.asg_sg
+  asg_services       = local.asgs.asgs_services
+  # secret = local.secrets
+}
