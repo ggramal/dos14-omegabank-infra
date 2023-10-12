@@ -1,23 +1,29 @@
 locals {
   asgs = {
     asg_sg = {
-      ingress_443 = {
-        from_port   = 443
-        to_port     = 443
-        protocol    = "tcp"
-        cidr_blocks = ["10.100.21.0/24", "10.100.22.0/24", "10.100.23.0/24"]
+      ingress_alb = {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "all"
+        sg_id = module.alb.alb_security_group_id
       }
-      ingress_80 = {
-        from_port   = 80
-        to_port     = 80
+      ingress_postgres = {
+        from_port   = 5432
+        to_port     = 5432
         protocol    = "tcp"
-        cidr_blocks = ["10.100.21.0/24", "10.100.22.0/24", "10.100.23.0/24"]
+        sg_id = module.omega_rds.rds_security_group_id
+      }
+      ingress_jump = {
+        from_port   = 22
+        to_port     = 22
+        protocol    = "tcp"
+        cidr_blocks = ["10.100.11.0/24", "10.100.12.0/24", "10.100.13.0/24"]
       }
       egress = {
         from_port   = 0
         to_port     = 0
         protocol    = "-1"
-        cidr_blocks = ["10.100.21.0/24", "10.100.22.0/24", "10.100.23.0/24"]
+        cidr_blocks = ["0.0.0.0/0"]
       }
     }
     asgs_services = {
@@ -36,6 +42,7 @@ locals {
           desired_capacity = 2
           min_size         = 2
           max_size         = 4
+          tg_alb           = module.alb.tg_authn_arn
         }
       }
 
@@ -54,7 +61,7 @@ locals {
           desired_capacity = 2
           min_size         = 2
           max_size         = 4
-
+          tg_alb           = module.alb.tg_authz_arn
         }
       }
 
@@ -72,6 +79,7 @@ locals {
           desired_capacity = 2
           min_size         = 2
           max_size         = 4
+          tg_alb           = module.alb.tg_bank_arn
         }
       }
     }

@@ -17,6 +17,32 @@ provider "aws" {
   region = "eu-west-1"
 }
 
+#data "aws_ami" "ubuntu" {
+#  most_recent = true
+#
+#  filter {
+#    name   = "name"
+#    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64*"]
+#  }
+#
+#  filter {
+#    name   = "virtualization-type"
+#    values = ["hvm"]
+#  }
+#}
+#
+#resource "aws_instance" "jump" {
+#  ami           = data.aws_ami.ubuntu.id
+#  instance_type = "t2.micro"
+#  subnet_id = module.vpcs.public_subnet_ids[0]
+#  key_name = "test_key"
+#
+#
+#  tags = {
+#    Name = "jumphost"
+#  }
+#}
+
 module "vpcs" {
   source       = "../../../modules/aws/vpc/"
   name         = local.vpcs.omega-tf.name
@@ -47,6 +73,8 @@ module "omega_rds" {
 }
 
 module "route53" {
+  lb_zone_id    = module.alb.lb_zone_id
+  lb_dns_name   = module.alb.lb_dns_name
   source        = "../../../modules/aws/route53/"
   zone_name     = local.route53.zone_name
   record_name   = local.route53.record_name
@@ -60,5 +88,24 @@ module "asg" {
   private_subnet_ids = module.vpcs.private_subnet_ids
   asg_sg             = local.asgs.asg_sg
   asg_services       = local.asgs.asgs_services
-  # secret = local.secrets
+}
+
+module "alb" {
+  vpc_id             = module.vpcs.vpc_id
+  public_subnet_ids  = module.vpcs.public_subnet_ids
+  source             = "../../../modules/aws/alb/"
+  name               = local.name
+  internal           = local.internal
+  load_balancer_type = local.load_balancer_type
+  ip_address_type    = local.ip_address_type
+  sg_name            = local.sg_name
+  sg_description     = local.sg_description
+  sg_rules_ingress   = local.sg_rules_ingress
+  sg_rules_egress    = local.sg_rules_egress
+  alb_tgs            = local.tgs_alb
+  tg_lb_type         = local.tg_lb_type
+  listener_http      = local.listener_http
+  listener_https     = local.listener_https
+  rules              = local.rules
+  extra_ssl_certs    = local.cert
 }

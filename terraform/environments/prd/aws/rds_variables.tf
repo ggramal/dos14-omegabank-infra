@@ -20,6 +20,12 @@ locals {
       protocol    = "tcp"
       cidr_blocks = ["10.100.21.0/24", "10.100.22.0/24", "10.100.23.0/24"]
     }
+    egress = {
+      from_port   = 0
+      to_port     = 0
+      protocol    = "-1"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
   }
 }
 

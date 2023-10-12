@@ -19,6 +19,7 @@ variable "asg_services" {
         desired_capacity = number
         min_size         = number
         max_size         = number
+        tg_alb           = any
       })
     }
   ))
@@ -31,7 +32,8 @@ variable "asg_sg" {
     from_port   = number
     to_port     = number
     protocol    = string
-    cidr_blocks = set(string)
+    cidr_blocks = optional(set(string))
+    sg_id = optional(string)
   }))
 }
 

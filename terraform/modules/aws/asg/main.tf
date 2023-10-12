@@ -33,6 +33,8 @@ resource "aws_autoscaling_group" "asg" {
   desired_capacity    = each.value.asg.desired_capacity
   min_size            = each.value.asg.min_size
   max_size            = each.value.asg.max_size
+  target_group_arns = each.value.asg.tg_alb
+
   launch_template {
     id      = aws_launch_template.lt[each.key].id
     version = "$Latest"
@@ -47,18 +49,34 @@ resource "aws_autoscaling_group" "asg" {
 resource "aws_security_group" "asg_sg" {
   vpc_id = var.vpc_id
   ingress {
-    from_port   = var.asg_sg.ingress_443.from_port
-    to_port     = var.asg_sg.ingress_443.to_port
-    protocol    = var.asg_sg.ingress_443.protocol
-    cidr_blocks = var.asg_sg.ingress_443.cidr_blocks
+    from_port   = var.asg_sg.ingress_alb.from_port
+    to_port     = var.asg_sg.ingress_alb.to_port
+    protocol    = var.asg_sg.ingress_alb.protocol
+    cidr_blocks = var.asg_sg.ingress_alb.cidr_blocks
+    security_groups = [var.asg_sg.ingress_alb.sg_id]
   }
 
   ingress {
-    from_port   = var.asg_sg.ingress_80.from_port
-    to_port     = var.asg_sg.ingress_80.to_port
-    protocol    = var.asg_sg.ingress_80.protocol
-    cidr_blocks = var.asg_sg.ingress_80.cidr_blocks
+    from_port   = var.asg_sg.ingress_postgres.from_port
+    to_port     = var.asg_sg.ingress_postgres.to_port
+    protocol    = var.asg_sg.ingress_postgres.protocol
+    security_groups = [var.asg_sg.ingress_postgres.sg_id]
   }
+
+  ingress {
+    from_port   = var.asg_sg.ingress_jump.from_port
+    to_port     = var.asg_sg.ingress_jump.to_port
+    protocol    = var.asg_sg.ingress_jump.protocol
+    cidr_blocks = var.asg_sg.ingress_jump.cidr_blocks
+  }
+
+  egress {
+    from_port   = var.asg_sg.egress.from_port
+    to_port     = var.asg_sg.egress.to_port
+    protocol    = var.asg_sg.egress.protocol
+    cidr_blocks = var.asg_sg.egress.cidr_blocks
+  }
+
 
   tags = {
     Name = "asg-sg-omega-tf"
