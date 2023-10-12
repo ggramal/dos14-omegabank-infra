@@ -109,3 +109,35 @@ module "alb" {
   rules              = local.rules
   extra_ssl_certs    = local.cert
 }
+
+module "eks" {
+  source = "git@github.com:terraform-aws-modules/terraform-aws-eks.git?ref=v19.16.0"
+  cluster_name    = "dos14"
+  cluster_version = "1.27"
+
+  cluster_endpoint_public_access  = true
+
+  vpc_id                   = module.vpcs.vpc_id
+  subnet_ids               = module.vpcs.private_subnet_ids
+
+  # EKS Managed Node Group(s)
+  eks_managed_node_group_defaults = {
+    use_custom_launch_template = false
+  }
+
+  eks_managed_node_groups = {
+    one = {
+      min_size     = 1
+      max_size     = 5
+      desired_size = 2
+
+      instance_types = ["t3.large"]
+      capacity_type  = "SPOT"
+    }
+  }
+
+  tags = {
+    Environment = "prd"
+    Terraform   = "true"
+  }
+}

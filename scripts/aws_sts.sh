@@ -7,7 +7,7 @@ read -p "Enter token code: " token_code
 read -p "Enter your name profile: " name_profile
 
 # Get caller identity
-caller_identity=$(aws sts get-caller-identity)
+caller_identity=$(aws sts --profile $name_profile get-caller-identity)
 AccountID=$(echo "$caller_identity" | jq -r '.Account')
 
 # Command execution aws sts assume-role с подстановкой значения кода токена
