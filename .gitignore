@@ -3,3 +3,4 @@
 *.terraform/
 .idea
 terraform/environments/prd/aws/variables_secret.tf
+tf_variables.tf
