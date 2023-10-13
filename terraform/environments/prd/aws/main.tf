@@ -125,6 +125,13 @@ module "eks" {
     use_custom_launch_template = false
   }
 
+  cluster_addons = {
+    aws-ebs-csi-driver = {
+      most_recent = true
+      service_account_role_arn = module.irsa-ebs-csi.iam_role_arn
+    }
+  }
+
   eks_managed_node_groups = {
     one = {
       min_size     = 1
@@ -140,4 +147,14 @@ module "eks" {
     Environment = "prd"
     Terraform   = "true"
   }
+}
+
+module "irsa-ebs-csi" {
+  source  = "git@github.com:terraform-aws-modules/terraform-aws-iam//modules/iam-assumable-role-with-oidc?ref=v5.30.0"
+
+  create_role                   = true
+  role_name                     = "AmazonEKSTFEBSCSIRole-${module.eks.cluster_name}"
+  provider_url                  = module.eks.oidc_provider
+  role_policy_arns              = ["arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"]
+  oidc_fully_qualified_subjects = ["system:serviceaccount:kube-system:ebs-csi-controller-sa"]
 }
