@@ -39,8 +39,8 @@ locals {
         }
         asg = {
           name             = "asg-authn-tf"
-          desired_capacity = 2
-          min_size         = 2
+          desired_capacity = 0
+          min_size         = 0
           max_size         = 4
           tg_alb           = module.alb.tg_authn_arn
         }
@@ -58,8 +58,8 @@ locals {
         }
         asg = {
           name             = "asg-authz-tf"
-          desired_capacity = 2
-          min_size         = 2
+          desired_capacity = 0
+          min_size         = 0
           max_size         = 4
           tg_alb           = module.alb.tg_authz_arn
         }
@@ -76,8 +76,8 @@ locals {
         }
         asg = {
           name             = "asg-bank-tf"
-          desired_capacity = 2
-          min_size         = 2
+          desired_capacity = 0
+          min_size         = 0
           max_size         = 4
           tg_alb           = module.alb.tg_bank_arn
         }
