@@ -56,20 +56,21 @@ module "vpcs" {
 module "omega_rds" {
   source              = "../../../modules/aws/rds/"
   vpc_id              = module.vpcs.vpc_id
-  db_subnet_name      = local.omega_rds.db_subnet_name
-  publicly_accessible = local.omega_rds.publicly_accessible
-  engine_version      = local.omega_rds.engine_version
-  name                = local.omega_rds.name
-  engine              = local.omega_rds.engine
-  storage             = local.omega_rds.storage
-  instance_class      = local.omega_rds.instance_class
-  username            = local.omega_rds.username
-  password            = random_password.password.result
-  final_snap          = local.omega_rds.final_snap
-  sg_name             = local.omega_rds.sg_name
+  db_instance         = local.rds_instances
+  db_subnet_name      = local.db_subnet_name
+#  publicly_accessible = local.omega_rds.publicly_accessible
+#  engine_version      = local.omega_rds.engine_version
+#  name                = local.omega_rds.name
+#  engine              = local.omega_rds.engine
+#  storage             = local.omega_rds.storage
+#  instance_class      = local.omega_rds.instance_class
+#  username            = local.omega_rds.username
+#  final_snap          = local.omega_rds.final_snap
+#  identifier          = local.omega_rds.identifier
+#  password            = random_password.password.result
+  sg_name             = local.db_sg_name
   rds_subnet_ids      = module.vpcs.rds_subnet_ids
   rds_sg              = local.sg_rds
-  identifier          = local.omega_rds.identifier
 }
 
 module "route53" {

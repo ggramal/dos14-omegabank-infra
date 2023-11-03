@@ -1,17 +1,33 @@
 locals {
-  omega_rds = {
-    engine              = "postgres"
-    storage             = "20"
-    db_subnet_name      = "subnet-db"
-    publicly_accessible = false
-    name                = "omegabank"
-    engine_version      = "15.3"
-    instance_class      = "db.t3.micro"
-    username            = "omega"
-    password            = random_password.password.result
-    identifier          = "omegabank-rds-tf"
-    final_snap          = "true"
-    sg_name             = "sg-rds-db"
+  rds_instances = {
+    omegabank = {
+      engine              = "postgres"
+      storage             = "20"
+      db_subnet_name      = "subnet-db"
+      publicly_accessible = false
+      name                = "omegabank"
+      engine_version      = "15.3"
+      instance_class      = "db.t3.micro"
+      username            = "omega"
+      password            = random_password.password.result
+      identifier          = "omegabank-rds-tf"
+      final_snap          = "true"
+      sg_name             = "sg-rds-db"
+    }
+    ivanoff = {
+      engine              = "postgres"
+      storage             = "20"
+      db_subnet_name      = "subnet-db"
+      publicly_accessible = false
+      name                = "ivanoffbank"
+      engine_version      = "15.3"
+      instance_class      = "db.t3.micro"
+      username            = "ivanoff"
+      password            = random_password.password.result
+      identifier          = "ivanoff-rds-tf"
+      final_snap          = "true"
+      sg_name             = "sg-rds-db"
+    }
   }
   sg_rds = {
     ingress = {
@@ -27,20 +43,32 @@ locals {
       cidr_blocks = ["0.0.0.0/0"]
     }
   }
+  db_subnet_name = "subnet-db"
+  db_sg_name = "sg-rds-db"
 }
 
 resource "random_password" "password" {
-  length           = 8
+  length           = 16
   special          = true
-  override_special = "!#$%&*()-_=+[]{}<>:?"
+  override_special = "!#$%&*()-_=+[]{}:?"
 }
 
-output "password" {
-  value     = local.omega_rds.password
+output "password_omega" {
+  value     = local.rds_instances.omegabank.password
   sensitive = true
 }
 
-output "username" {
-  value = local.omega_rds.username
+output "username_omega" {
+  value = local.rds_instances.omegabank.username
+  sensitive = true
+}
+
+output "password_ivanoff" {
+  value     = local.rds_instances.ivanoff.password
+  sensitive = true
+}
+
+output "username_ivanoff" {
+  value = local.rds_instances.ivanoff.username
   sensitive = true
 }
