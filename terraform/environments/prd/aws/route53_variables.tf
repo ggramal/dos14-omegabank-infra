@@ -16,8 +16,10 @@ locals {
     a_record = {
       dns_name    = "api.omega.smodata.net"
       dns_type    = "A"
-      dns_alias_name                   = "a52257f4003464781a79a0193c4284b9-301112538.eu-west-1.elb.amazonaws.com"
-      dns_alias_evaluate_target_health = true
+      alias = {
+        dns_alias_name                   = "a52257f4003464781a79a0193c4284b9-301112538.eu-west-1.elb.amazonaws.com"
+        dns_alias_evaluate_target_health = true
+      }
     }
   }
 }

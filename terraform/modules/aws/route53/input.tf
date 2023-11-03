@@ -34,8 +34,10 @@ variable "k8s_elb_dns" {
   type = map(object({
     dns_name = string
     dns_type    = string
-    dns_alias_name                   = string
-    dns_alias_evaluate_target_health = bool
+    alias = object({
+      dns_alias_name                   = string
+      dns_alias_evaluate_target_health = bool
+    })
   }
   ))
 }

@@ -24,9 +24,9 @@ resource "aws_route53_record" "eks-A-record" {
   type    = each.value.dns_type
 
   alias {
-    name                   = each.value.dns_alias_name
+    name                   = each.value.alias.dns_alias_name
     zone_id                = var.lb_zone_id
-    evaluate_target_health = each.value.dns_alias_evaluate_target_health
+    evaluate_target_health = each.value.alias.dns_alias_evaluate_target_health
   }
 }
 
