@@ -80,7 +80,7 @@ module "route53" {
   record_name   = local.route53.record_name
   record_type   = local.route53.record_type
   cname_records = local.route53.cname_records
-  eks = local.eks
+  k8s_elb_dns = local.k8s_elb_dns
 }
 
 module "asg" {

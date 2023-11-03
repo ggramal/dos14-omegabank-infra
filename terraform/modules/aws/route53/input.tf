@@ -29,13 +29,13 @@ variable "cname_records" {
   }))
 }
 
-variable "eks" {
+variable "k8s_elb_dns" {
   description = "Map of eks a-record"
   type = map(object({
-    eks_name = string
-    eks_type    = string
-    alias_name                   = string
-    alias_evaluate_target_health = bool
+    dns_name = string
+    dns_type    = string
+    dns_alias_name                   = string
+    dns_alias_evaluate_target_health = bool
   }
   ))
 }

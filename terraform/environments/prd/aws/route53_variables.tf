@@ -12,12 +12,12 @@ locals {
       }
     }
   }
-  eks = {
+  k8s_elb_dns = {
     a_record = {
-      eks_name    = "api.omega.smodata.net"
-      eks_type    = "A"
-      alias_name                   = "a52257f4003464781a79a0193c4284b9-301112538.eu-west-1.elb.amazonaws.com"
-      alias_evaluate_target_health = true
+      dns_name    = "api.omega.smodata.net"
+      dns_type    = "A"
+      dns_alias_name                   = "a52257f4003464781a79a0193c4284b9-301112538.eu-west-1.elb.amazonaws.com"
+      dns_alias_evaluate_target_health = true
     }
   }
 }
