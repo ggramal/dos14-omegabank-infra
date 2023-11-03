@@ -39,3 +39,8 @@ output "password" {
   value     = local.omega_rds.password
   sensitive = true
 }
+
+output "username" {
+  value = local.omega_rds.username
+  sensitive = true
+}
