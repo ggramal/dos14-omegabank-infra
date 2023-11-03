@@ -11,10 +11,10 @@ output "db_name_omegabank" {
   value = aws_db_instance.omega_db["omegabank"].db_name
 }
 
-output "endpoint_ivanoff" {
-  value = aws_db_instance.omega_db["ivanoff"].endpoint
-}
-
-output "db_name_ivanoff" {
-  value = aws_db_instance.omega_db["ivanoff"].db_name
-}
+#output "endpoint_ivanoff" {
+#  value = aws_db_instance.omega_db["ivanoff"].endpoint
+#}
+#
+#output "db_name_ivanoff" {
+#  value = aws_db_instance.omega_db["ivanoff"].db_name
+#}
