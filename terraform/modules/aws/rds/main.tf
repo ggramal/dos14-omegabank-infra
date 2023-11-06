@@ -39,16 +39,17 @@ resource "aws_db_subnet_group" "database_subnet_group" {
 
 # create the rds instance
 resource "aws_db_instance" "omega_db" {
-  engine                 = var.engine
-  allocated_storage      = var.storage
-  db_name                = var.name
-  publicly_accessible    = var.publicly_accessible
-  engine_version         = var.engine_version
-  instance_class         = var.instance_class
-  username               = var.username
-  password               = var.password
-  skip_final_snapshot    = var.final_snap
+  for_each = var.db_instance
+  engine                 = each.value.engine
+  allocated_storage      = each.value.storage
+  db_name                = each.value.name
+  publicly_accessible    = each.value.publicly_accessible
+  engine_version         = each.value.engine_version
+  instance_class         = each.value.instance_class
+  username               = each.value.username
+  password               = each.value.password
+  skip_final_snapshot    = each.value.final_snap
   db_subnet_group_name   = aws_db_subnet_group.database_subnet_group.name
-  identifier             = var.identifier
+  identifier             = each.value.identifier
   vpc_security_group_ids = [aws_security_group.database_security_group.id]
 }
